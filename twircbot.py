@@ -61,7 +61,7 @@ if pid.oktorun:
                                 irc.sendmsg(sendStr)
                                 #log.logmsg(sendStr, False)
                         if msg.find('Congratulations to') != -1:
-                            if msg.find(' zyrsa ') != -1:
+                            if msg.find(' '+ config.rafflenick +' ') != -1:
                                 joinraffle = False
                 
                 # Commands and whatnot in #subchannel
@@ -73,7 +73,7 @@ if pid.oktorun:
                                 irc.sendmsg(sendStr)
                                 #log.logmsg(sendStr, False)
                         if msg.find('Congratulations to') != -1:
-                            if msg.find(' zyrsa ') != -1:
+                            if msg.find(' '+ config.rafflenick +' ') != -1:
                                 joinraffle = False
 
             except Exception:

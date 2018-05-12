@@ -15,5 +15,8 @@ shenbot = 'BOT'
 
 owner = 'SELF'
 
+# nick
+rafflenick = 'SELF'
+
 pidfile = 'twircbot.pid'
 logfile = 'logs/twircbot.log'
