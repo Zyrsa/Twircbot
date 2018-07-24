@@ -1,0 +1,5 @@
+__pycache__/
+.project
+.pydevproject
+config.py
+test.py

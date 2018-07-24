@@ -32,7 +32,8 @@ if pid.oktorun:
                 if irc.ping(msg):
                     irc.pong(msg)
                 
-                if msg.find('PRIVMSG') != -1 and msg.find(' '+ config.ownernick +' ') != -1:
+                # Log mentions of us
+                if msg.find('PRIVMSG') != -1 and msg.casefold().find(config.ownernick) != -1:
                     log.logmsg(msg)
                 
                 # Commands in #selfchannel
@@ -172,8 +173,7 @@ if pid.oktorun:
                                 msg = str('!raffle')
                                 db.write_output(ts, chan, msg)
                         if msg.find('Congratulations to') != -1:
-                            msg = msg.lower()
-                            if msg.find(' '+ config.ownernick) != -1:
+                            if msg.casefold().find(' '+ config.ownernick) != -1:
                                 rafflestatus = db.get_raffle_status()
                                 if rafflestatus == 'on':
                                     db.set_raffle_status('off')
@@ -189,8 +189,7 @@ if pid.oktorun:
                                 msg = str('!raffle')
                                 db.write_output(ts, chan, msg)
                         if msg.find('Congratulations to') != -1:
-                            msg = msg.lower()
-                            if msg.find(' '+ config.ownernick) != -1:
+                            if msg.casefold().find(' '+ config.ownernick) != -1:
                                 rafflestatus = db.get_raffle_status()
                                 if rafflestatus == 'on':
                                     db.set_raffle_status('off')
