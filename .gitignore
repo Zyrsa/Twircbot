@@ -4,7 +4,7 @@ __pycache__/
 .pydevproject
 
 # Ignore config
-#config.py
+config.py
 
 # Ignore test.py
 test.py
