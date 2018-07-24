@@ -1,6 +1,6 @@
 import time, config
 
-class LOG:
+class log:
     __ts = 0
     
     def find_nth(self, haystack, needle, n):

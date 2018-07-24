@@ -1,6 +1,6 @@
 import os, sys, config
 
-class PID:
+class pid:
     oktorun = False
     
     def __init__(self):

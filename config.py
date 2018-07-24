@@ -1,22 +1,32 @@
-server = 'SERVER'
+server = 'irc.chat.twitch.tv'
 port = 6697
 
+# your nick
 nick = 'NICK'
+# oauth
 password = 'PASSWORD'
 
+# target channel
 channel = '#CHANNEL'
+# your nick
 selfchannel = '#SELFCHANNEL'
 
+# typically #chatrooms
+subchan = '#SUBCHANNEL'
+# you'll have to find this yourself
 shenchannelid = 'ID'
+# you'll have to find this yourself
 shensubchat = 'STR'
 
 # nick!ident@host
 shenbot = 'BOT'
 
+# nick!ident@host
 owner = 'SELF'
-
 # nick
-rafflenick = 'SELF'
+ownernick = 'NICK'
 
-pidfile = 'twircbot.pid'
+# you can leave these as is
+pidfile = 'run.pid'
 logfile = 'logs/twircbot.log'
+dbfile = 'db/twircbot.db'

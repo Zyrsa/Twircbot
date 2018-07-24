@@ -1,6 +1,6 @@
 import socket, ssl, config
 
-class IRC:
+class irc:
     __sock = 0
     
     def __init__(self):
