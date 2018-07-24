@@ -1,8 +1,15 @@
+# Ignore python crap
 __pycache__/
 .project
 .pydevproject
-config.py
+
+# Ignore config
+#config.py
+
+# Ignore test.py
 test.py
+
+# Ignore stuff that should be ignored
 *.pid
 *.db
 *.log
