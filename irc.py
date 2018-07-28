@@ -1,4 +1,4 @@
-import socket, ssl, config
+import sys, socket, ssl, config
 
 class irc:
     __sock = 0
@@ -10,7 +10,11 @@ class irc:
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.__sock = ssl.wrap_socket(sock)
         print('Connecting to %s:%s' % (config.server, config.port))
-        self.__sock.connect((config.server, config.port))
+        try:
+            self.__sock.connect((config.server, config.port))
+        except Exception:
+            print('Could not connect.')
+            sys.exit()
         self.__sock.setblocking(False)
         if config.password != '':
             self.sendmsg('PASS '+ config.password +'\n')
