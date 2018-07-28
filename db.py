@@ -8,7 +8,7 @@ class db:
         self.connect()
         self.__c.execute('CREATE table IF NOT EXISTS settings (id INTEGER PRIMARY KEY AUTOINCREMENT, arg TEXT UNIQUE, val TEXT)')
         self.__c.execute('CREATE table IF NOT EXISTS output (id INTEGER PRIMARY KEY AUTOINCREMENT, timestamp REAL, channel TEXT, message TEXT)')
-        self.__c.execute('CREATE table IF NOT EXISTS heistscore (id INTEGER PRIMARY KEY AUTOINCREMENT, timestamp REAL, points INTEGER)')
+        self.__c.execute('CREATE table IF NOT EXISTS heistscore (id INTEGER PRIMARY KEY AUTOINCREMENT, timestamp REAL, heiststarter TEXT, points INTEGER)')
         self.__con.commit()
         self.disconnect()
 
@@ -78,9 +78,9 @@ class db:
             return row
         return False
     
-    def new_heist(self, ts, points):
+    def new_heist(self, ts, heiststarter):
         self.connect()
-        self.__c.execute('INSERT INTO heistscore (timestamp, points) VALUES (?, ?)', (ts, points))
+        self.__c.execute('INSERT INTO heistscore (timestamp, heiststarter, points) VALUES (?, ?, 0)', (ts, heiststarter))
         self.__con.commit()
         insert_id = self.__c.lastrowid
         self.__c.execute('SELECT id FROM settings WHERE arg = ?', ('lastheist_id',))
@@ -126,3 +126,13 @@ class db:
                 self.disconnect()
                 return points
         return False
+
+    def get_last_10_heists(self):
+        self.connect()
+        self.__c.execute('SELECT timestamp, heiststarter, points FROM heistscore ORDER BY timestamp DESC LIMIT 10')
+        res = self.__c.fetchall()
+        if res == None:
+            self.disconnect()
+            return False
+        self.disconnect()
+        return res
