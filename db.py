@@ -135,3 +135,33 @@ class db:
             return False
         self.disconnect()
         return res
+    
+    def get_heist_total_score(self):
+        self.connect()
+        self.__c.execute('SELECT SUM(points) AS total, COUNT(id) AS heists FROM heistscore')
+        row = self.__c.fetchone()
+        if row == None:
+            self.disconnect()
+            return False
+        self.disconnect()
+        return row
+    
+    def get_5_best_heisters(self):
+        self.connect()
+        self.__c.execute('SELECT heiststarter, (SUM(points) - (COUNT(id) * 1000)) AS score, COUNT(id) AS heists FROM heistscore GROUP BY heiststarter ORDER BY score DESC, heists ASC LIMIT 5')
+        res = self.__c.fetchall()
+        if res == None:
+            self.disconnect()
+            return False
+        self.disconnect()
+        return res
+    
+    def get_5_worst_heisters(self):
+        self.connect()
+        self.__c.execute('SELECT heiststarter, (SUM(points) - (COUNT(id) * 1000)) AS score, COUNT(id) AS heists FROM heistscore GROUP BY heiststarter ORDER BY score ASC, heists DESC LIMIT 5')
+        res = self.__c.fetchall()
+        if res == None:
+            self.disconnect()
+            return False
+        self.disconnect()
+        return res

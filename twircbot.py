@@ -46,7 +46,7 @@ if pid.oktorun:
                         if msg.find(':!help') != -1:
                             ts = float(time.time() + 3)
                             chan = str(config.selfchannel)
-                            msg = str('Commands: !online, !joinraffle, !nojoinraffle, !rafflestatus, !last10')
+                            msg = str('Commands: !online, !joinraffle, !nojoinraffle, !rafflestatus, !last10, !total, !best5, !worst5')
                             db.write_output(ts, chan, msg)
                         elif msg.find(':!online') != -1:
                             ts = float(time.time() + 3)
@@ -78,6 +78,7 @@ if pid.oktorun:
                             res = db.get_last_10_heists()
                             if res:
                                 i = 1
+                                total = 0
                                 for row in reversed(res):
                                     ts = float(time.time() + i)
                                     chan = str(config.selfchannel)
@@ -85,12 +86,88 @@ if pid.oktorun:
                                     heiststarter = row[1]
                                     points = row[2]
                                     score = round(points - 1000)
+                                    total = total + score
                                     if points > 1000:
                                         msg = str('#'+ str(i) +': '+ time.strftime('%Y-%m-%d %H:%M', time.localtime(heistts)) +': WON '+ str(score) +' points. Thanks '+ str(heiststarter) +'. shenTea')
                                     elif points < 1000:
                                         msg = str('#'+ str(i) +': '+ time.strftime('%Y-%m-%d %H:%M', time.localtime(heistts)) +': LOST '+ str(abs(score)) +' points. #blame '+ str(heiststarter) +'. shenRage')
                                     else:
-                                        msg = str('#'+ str(i) +': '+ time.strftime('%Y-%m-%d %H:%M', time.localtime(heistts)) +': NEITHER 0 points. Good going '+ str(heiststarter) +'. shenFacepalm')
+                                        msg = str('#'+ str(i) +': '+ time.strftime('%Y-%m-%d %H:%M', time.localtime(heistts)) +': EVEN 0 points. Good going '+ str(heiststarter) +'. shenFacepalm')
+                                    db.write_output(ts, chan, msg)
+                                    i = i + 1
+                                ts = float(time.time() + i)
+                                chan = str(config.selfchannel)
+                                if total > 0:
+                                    msg = str('Total won: '+ str(total) +' points.')
+                                elif total < 0:
+                                    msg = str('Total lost: '+ str(abs(total)) +' points.')
+                                else:
+                                    msg = str('Total: '+ str(total) +' points won/lost.')
+                                db.write_output(ts, chan, msg)
+                            else:
+                                ts = float(time.time() + 3)
+                                chan = str(config.selfchannel)
+                                msg = str('No recorded heists.')
+                                db.write_output(ts, chan, msg)
+                        elif msg.find(':!total') != -1:
+                            row = db.get_heist_total_score()
+                            print(row)
+                            if row:
+                                score = row[0]
+                                heists = row[1]
+                                earnings = (score - (heists * 1000))
+                                ts = float(time.time() + 3)
+                                chan = str(config.selfchannel)
+                                if earnings > 0:
+                                    msg = str('# heists: '+ str(heists) +'. points won: '+ str(earnings) +'.')
+                                elif earnings < 0:
+                                    msg = str('# heists: '+ str(heists) +'. points lost: '+ str(abs(earnings)) +'.')
+                                else:
+                                    msg = str('# heists: '+ str(heists) +'. points even: '+ str(earnings) +'.')
+                                db.write_output(ts, chan, msg)
+                            else:
+                                ts = float(time.time() + 3)
+                                chan = str(config.selfchannel)
+                                msg = str('No recorded heists.')
+                        elif msg.find(':!best5') != -1:
+                            res = db.get_5_best_heisters()
+                            if res:
+                                i = 1
+                                for row in res:
+                                    ts = float(time.time() + i)
+                                    chan = str(config.selfchannel)
+                                    heiststarter = row[0]
+                                    score = row[1]
+                                    heists = row[2]
+                                    if score > 0:
+                                        msg = str('#'+ str(i) +': '+ str(heiststarter) +' generated '+ str(score) +' profit in '+ str(heists) +' heists.')
+                                    elif score < 0:
+                                        msg = str('#'+ str(i) +': '+ str(heiststarter) +' lost us '+ str(score) +' points in '+ str(heists) +' heists.')
+                                    else:
+                                        msg = str('#'+ str(i) +': '+ str(heiststarter) +' turned us even with '+ str(score) +' points in '+ str(heists) +' heists.')
+                                    db.write_output(ts, chan, msg)
+                                    i = i + 1
+                            else:
+                                ts = float(time.time() + 3)
+                                chan = str(config.selfchannel)
+                                msg = str('No recorded heists.')
+                                db.write_output(ts, chan, msg)
+                        elif msg.find(':!worst5') != -1:
+                            res = db.get_5_worst_heisters()
+                            if res:
+                                i = 1
+                                for row in res:
+                                    ts = float(time.time() + i)
+                                    chan = str(config.selfchannel)
+                                    heiststarter = row[0]
+                                    score = row[1]
+                                    heists = row[2]
+                                    if score > 0:
+                                        msg = str('#'+ str(i) +': '+ str(heiststarter) +' generated '+ str(score) +' profit in '+ str(heists) +' heists.')
+                                    elif score < 0:
+                                        msg = str('#'+ str(i) +': '+ str(heiststarter) +' lost us '+ str(score) +' points in '+ str(heists) +' heists.')
+                                    else:
+                                        msg = str('#'+ str(i) +': '+ str(heiststarter) +' turned us even with '+ str(score) +' points in '+ str(heists) +' heists.')
                                     db.write_output(ts, chan, msg)
                                     i = i + 1
                             else:
