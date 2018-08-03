@@ -135,10 +135,13 @@ if pid.oktorun:
                             points = words[-2]
                             points = int(points)
                             db.update_heist(points)
-                            score = db.get_last_heist_score()
+                            row = db.get_last_heist_details()
+                            score = row[0]
+                            heiststarter = row[1]
                             score = round(score - 1000)
-                            ts = float(time.time() + 1)
+                            ts = float(time.time() + 6)
                             chan = str(config.channel)
+                            msg2 = str('#blame '+ heiststarter)
                             if score > 1:
                                 msg = str('Yay, '+ str(score) +' points profit. shenTea')
                             elif score == 1:
@@ -150,13 +153,26 @@ if pid.oktorun:
                             else:
                                 msg = str('No profit but no loss either. shenFacepalm')
                             db.write_output(ts, chan, msg)
+                            if score <= 0:
+                                ts = ts + 3
+                                db.write_output(ts, chan, msg2)
                         if msg.find('Stage 1 Failed with') != -1:
                             db.update_heist(0)
+                            row = db.get_last_heist_details()
+                            score = row[0]
+                            heiststarter = row[1]
+                            ts = float(time.time() + 6)
+                            chan = str(config.channel)
+                            msg = str('#blame '+ heiststarter)
+                            db.write_output(ts, chan, msg)
                         if msg.find('Stage 2 Failed with') != -1:
-                            score = db.get_last_heist_score()
+                            row = db.get_last_heist_details()
+                            score = row[0]
+                            heiststarter = row[1]
                             score = round(score - 1000)
-                            ts = float(time.time() + 1)
+                            ts = float(time.time() + 6)
                             chan = str(config.channel)
+                            msg2 = str('#blame '+ heiststarter)
                             if score > 1:
                                 msg = str('Yay, '+ str(score) +' points profit. shenTea')
                             elif score == 1:
@@ -168,11 +184,17 @@ if pid.oktorun:
                             else:
                                 msg = str('No profit but no loss either. shenFacepalm')
                             db.write_output(ts, chan, msg)
+                            if score <= 0:
+                                ts = ts + 3
+                                db.write_output(ts, chan, msg2)
                         if msg.find('Stage 3 Failed with') != -1:
-                            score = db.get_last_heist_score()
+                            row = db.get_last_heist_details()
+                            score = row[0]
+                            heiststarter = row[1]
                             score = round(score - 1000)
-                            ts = float(time.time() + 1)
+                            ts = float(time.time() + 6)
                             chan = str(config.channel)
+                            msg2 = str('#blame '+ heiststarter)
                             if score > 1:
                                 msg = str('Yay, '+ str(score) +' points profit. shenTea')
                             elif score == 1:
@@ -184,11 +206,17 @@ if pid.oktorun:
                             else:
                                 msg = str('No profit but no loss either. shenFacepalm')
                             db.write_output(ts, chan, msg)
+                            if score <= 0:
+                                ts = ts + 3
+                                db.write_output(ts, chan, msg2)
                         if msg.find('Stage 4 Failed with') != -1:
-                            score = db.get_last_heist_score()
+                            row = db.get_last_heist_details()
+                            score = row[0]
+                            heiststarter = row[1]
                             score = round(score - 1000)
-                            ts = float(time.time() + 1)
+                            ts = float(time.time() + 6)
                             chan = str(config.channel)
+                            msg2 = str('#blame '+ heiststarter)
                             if score > 1:
                                 msg = str('Yay, '+ str(score) +' points profit. shenTea')
                             elif score == 1:
@@ -200,6 +228,9 @@ if pid.oktorun:
                             else:
                                 msg = str('No profit but no loss either. shenFacepalm')
                             db.write_output(ts, chan, msg)
+                            if score <= 0:
+                                ts = ts + 3
+                                db.write_output(ts, chan, msg2)
                         if msg.find('Type !Raffle in subchat for your chance to win') != -1:
                             rafflestatus = db.get_raffle_status()
                             if rafflestatus == 'on':

@@ -107,7 +107,7 @@ class db:
             return True
         return False
     
-    def get_last_heist_score(self):
+    def get_last_heist_details(self):
         self.connect()
         self.__c.execute('SELECT val FROM settings WHERE arg = ?', ('lastheist_id',))
         row = self.__c.fetchone()
@@ -116,15 +116,14 @@ class db:
             return False
         else:
             lastheist_id = row[0]
-            self.__c.execute('SELECT points FROM heistscore WHERE id = ?', (lastheist_id,))
+            self.__c.execute('SELECT points, heiststarter FROM heistscore WHERE id = ?', (lastheist_id,))
             row = self.__c.fetchone()
             if row == None:
                 self.disconnect()
                 return False
             else:
-                points = row[0]
                 self.disconnect()
-                return points
+                return row
         return False
 
     def get_last_10_heists(self):
