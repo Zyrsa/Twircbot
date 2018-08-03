@@ -2,10 +2,10 @@ import os, sys, config
 
 class pid:
     oktorun = False
-    
+
     def __init__(self):
         pid = str(os.getpid())
-        
+
         if os.path.isfile(config.pidfile):
             rpidfile = open(config.pidfile, 'r')
             rpidfile.seek(0)
@@ -17,7 +17,7 @@ class pid:
                 sys.exit()
             else:
                 os.remove(config.pidfile)
-        
+
         pidfile = open(config.pidfile, 'w')
         pidfile.write('%s' % pid)
         pidfile.close()
@@ -39,6 +39,6 @@ class pid:
                 return True
             else:
                 return False
-    
+
     def unlink(self):
         os.unlink(config.pidfile)

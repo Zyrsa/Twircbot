@@ -23,23 +23,23 @@ if pid.oktorun:
             try:
                 msg = irc.getmsg()
                 print(msg)
-                
+
                 # Reconnect if disconnected
                 if len(msg) == 0:
                     irc.connect()
-                
+
                 # Prevent Timeout
                 if irc.ping(msg):
                     irc.pong(msg)
-                
+
                 # Log mentions of us
                 if msg.find('PRIVMSG') != -1 and msg.casefold().find(config.ownernick) != -1:
                     log.logmsg(msg)
-                
+
                 # Log shenbot output
                 #if msg.find('PRIVMSG') != -1 and irc.isshenbot(msg):
                 #    log.logmsg(msg)
-                
+
                 # Commands in #selfchannel
                 if irc.isselfchannel(msg):
                     if irc.isowner(msg):

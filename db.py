@@ -77,7 +77,7 @@ class db:
             self.disconnect()
             return row
         return False
-    
+
     def new_heist(self, ts, heiststarter):
         self.connect()
         self.__c.execute('INSERT INTO heistscore (timestamp, heiststarter, points) VALUES (?, ?, 0)', (ts, heiststarter))
@@ -92,7 +92,7 @@ class db:
         self.__con.commit()
         self.disconnect()
         return True
-    
+
     def update_heist(self, points):
         self.connect()
         self.__c.execute('SELECT val FROM settings WHERE arg = ?', ('lastheist_id',))
@@ -106,7 +106,7 @@ class db:
             self.disconnect()
             return True
         return False
-    
+
     def get_last_heist_details(self):
         self.connect()
         self.__c.execute('SELECT val FROM settings WHERE arg = ?', ('lastheist_id',))
@@ -135,7 +135,7 @@ class db:
             return False
         self.disconnect()
         return res
-    
+
     def get_heist_total_score(self):
         self.connect()
         self.__c.execute('SELECT SUM(points) AS total, COUNT(id) AS heists FROM heistscore')
@@ -145,7 +145,7 @@ class db:
             return False
         self.disconnect()
         return row
-    
+
     def get_5_best_heisters(self):
         self.connect()
         self.__c.execute('SELECT heiststarter, (SUM(points) - (COUNT(id) * 1000)) AS score, COUNT(id) AS heists FROM heistscore GROUP BY heiststarter ORDER BY score DESC, heists ASC LIMIT 5')
@@ -155,7 +155,7 @@ class db:
             return False
         self.disconnect()
         return res
-    
+
     def get_5_worst_heisters(self):
         self.connect()
         self.__c.execute('SELECT heiststarter, (SUM(points) - (COUNT(id) * 1000)) AS score, COUNT(id) AS heists FROM heistscore GROUP BY heiststarter ORDER BY score ASC, heists DESC LIMIT 5')

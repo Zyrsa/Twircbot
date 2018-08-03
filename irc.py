@@ -2,10 +2,10 @@ import sys, socket, ssl, config
 
 class irc:
     __sock = 0
-    
+
     def __init__(self):
         self.connect()
-        
+
     def connect(self):
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.__sock = ssl.wrap_socket(sock)
@@ -26,48 +26,48 @@ class irc:
         self.sendmsg('CAP REQ :twitch.tv/membership\n')
         #self.sendmsg('CAP REQ :twitch.tv/tags\n')
         self.sendmsg('CAP REQ :twitch.tv/commands\n')
-    
+
     def sendmsg(self, msg):
         self.__sock.send(bytes(msg, 'UTF-8'))
-        
+
     def getmsg(self):
         msg = self.__sock.recv(2040).decode('UTF-8')
         msg = msg.strip('\n\r')
         return msg
-    
+
     def ping(self, msg = ''):
         if msg.find('PING') != -1:
             return True
         else:
             return False
-    
+
     def pong(self, msg = ''):
         self.sendmsg('PONG '+ msg.split() [1] +'\r\n')
-        
+
     def isselfchannel(self, msg = ''):
         if msg.find(' PRIVMSG %s :' % (config.selfchannel)) != -1:
             return True
         else:
             return False
-    
+
     def istargetchannel(self, msg = ''):
         if msg.find(' PRIVMSG %s :' % (config.channel)) != -1:
             return True
         else:
             return False
-    
+
     def issubchannel(self, msg = ''):
         if msg.find(' PRIVMSG #chatrooms:%s:%s :' % (config.shenchannelid, config.shensubchat)) != -1:
             return True
         else:
             return False
-    
+
     def isshenbot(self, msg = ''):
         if msg.startswith(':%s PRIVMSG ' % (config.shenbot)):
             return True
         else:
             return False
-    
+
     def isowner(self, msg = ''):
         if msg.startswith(':%s PRIVMSG ' % (config.owner)):
             return True

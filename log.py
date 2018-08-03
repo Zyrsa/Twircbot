@@ -2,7 +2,7 @@ import time, config
 
 class log:
     __ts = 0
-    
+
     def find_nth(self, haystack, needle, n):
         start = haystack.find(needle)
         while start >= 0 and n > 1:
@@ -21,7 +21,7 @@ class log:
 
         timestamp = time.strftime('%H:%M:%S', time.gmtime())
         logmsg = timestamp +' <'+ user +'> '+ text +'\n'
-        
+
         logfile = config.logfile
         if logfile.endswith('.log'):
             logfile = logfile[ 0 : (len(logfile) - 4) ] + time.strftime('-%Y-%m-%d', time.gmtime()) + '.log' 
