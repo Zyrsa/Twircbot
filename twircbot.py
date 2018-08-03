@@ -142,7 +142,7 @@ if pid.oktorun:
                                     if score > 0:
                                         msg = str('#'+ str(i) +': '+ str(heiststarter) +' generated '+ str(score) +' profit in '+ str(heists) +' heists.')
                                     elif score < 0:
-                                        msg = str('#'+ str(i) +': '+ str(heiststarter) +' lost us '+ str(score) +' points in '+ str(heists) +' heists.')
+                                        msg = str('#'+ str(i) +': '+ str(heiststarter) +' lost us '+ str(abs(score)) +' points in '+ str(heists) +' heists.')
                                     else:
                                         msg = str('#'+ str(i) +': '+ str(heiststarter) +' turned us even with '+ str(score) +' points in '+ str(heists) +' heists.')
                                     db.write_output(ts, chan, msg)
@@ -165,7 +165,7 @@ if pid.oktorun:
                                     if score > 0:
                                         msg = str('#'+ str(i) +': '+ str(heiststarter) +' generated '+ str(score) +' profit in '+ str(heists) +' heists.')
                                     elif score < 0:
-                                        msg = str('#'+ str(i) +': '+ str(heiststarter) +' lost us '+ str(score) +' points in '+ str(heists) +' heists.')
+                                        msg = str('#'+ str(i) +': '+ str(heiststarter) +' lost us '+ str(abs(score)) +' points in '+ str(heists) +' heists.')
                                     else:
                                         msg = str('#'+ str(i) +': '+ str(heiststarter) +' turned us even with '+ str(score) +' points in '+ str(heists) +' heists.')
                                     db.write_output(ts, chan, msg)
